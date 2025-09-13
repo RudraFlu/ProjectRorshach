@@ -36,8 +36,8 @@ A Flutter app that presents a **Rorschach test**, collects user responses, and p
 
 ### Installation
 
-git clone https://github.com/your-username/rorschach-test-app.git
-cd rorschach-test-app
+git clone https://github.com/RudraFlu/ProjectRorshach.git
+cd ProjectRorshach-app
 flutter pub get
 
 ### Run the app
