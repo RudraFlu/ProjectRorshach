@@ -22,7 +22,6 @@ A Flutter app that presents a **Rorschach test**, collects user responses, and p
 - Shows AI-generated symbolic interpretations  
 - Custom fonts and styled result text  
 - Inline images in the analysis (manually added)  
-- Internet not required
 ---
 
 ## 🚀 Getting Started
