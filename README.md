@@ -7,11 +7,10 @@ A Flutter app that presents a **Rorschach test**, collects user responses, and p
 ---
 
 ## 📸 Demo
-
-![WhatsApp Image 2025-09-13 at 20 54 20_04ab0ea9](https://github.com/user-attachments/assets/40a7e9a0-8c50-4127-99e4-e5ac9306a76a)
-![WhatsApp Image 2025-09-13 at 20 51 12_ab4fa321](https://github.com/user-attachments/assets/964eff0b-e0e2-4867-9a14-0c33a9e5ba42)
-![WhatsApp Image 2025-09-13 at 20 51 12_9145bf12](https://github.com/user-attachments/assets/4763333e-6319-419a-bf3b-d81e22304790)
 ![WhatsApp Image 2025-09-13 at 20 51 11_ebbc32fe](https://github.com/user-attachments/assets/5bd49e90-372a-4309-becf-ad148ca21cb0)
+![WhatsApp Image 2025-09-13 at 20 51 12_9145bf12](https://github.com/user-attachments/assets/4763333e-6319-419a-bf3b-d81e22304790)
+![WhatsApp Image 2025-09-13 at 20 51 12_ab4fa321](https://github.com/user-attachments/assets/964eff0b-e0e2-4867-9a14-0c33a9e5ba42)
+![WhatsApp Image 2025-09-13 at 20 54 20_04ab0ea9](https://github.com/user-attachments/assets/40a7e9a0-8c50-4127-99e4-e5ac9306a76a)
 
 
 ---
