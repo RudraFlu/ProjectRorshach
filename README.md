@@ -64,7 +64,6 @@ assets/
 
 The app is for entertainment purposes only — not a medical or psychological tool.
 
-Keep any API keys private; do not commit them to GitHub.
 
 # 📄 License
 
