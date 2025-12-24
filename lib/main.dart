@@ -4,17 +4,20 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:dart_openai/dart_openai.dart';
 
+//reset text feild on pressing next
+//reform code to use column instead of stack
+//add stateful widget on videoplayer to make one videoPlayer function and change the video
 void main() {
   runApp(MyApp());
 }
 
-var count = 0;
+var count = 1;
 Future<void> _saveText(TextEditingController bc) async {
-  count++;
   final text = bc.text;
   final file = await _getFile();
   await file.writeAsString("bc$count: $text\n", mode: FileMode.append);
   debugPrint("Saved to file: ${file.path}");
+  count++;
 }
 
 Future<void> _writeStartupLine() async {
@@ -241,16 +244,29 @@ class Rules extends StatelessWidget {
   }
 }
 
-class FirstImage extends StatelessWidget {
-  FirstImage({super.key});
+class nextImg extends StatefulWidget{
+@override
+State<nextImg> createState(){
+return _next();
 
+}
+
+}
+
+class _next extends State<nextImg>{
+
+  var image =  'image/$count.jpg';
+  
+ void cngImg()
+{
+  setState(() {
+    image = 'image/$count.jpg';
+  });
+}
   TextEditingController first = TextEditingController();
-  @override
-  Widget build(context) {
-    _writeStartupLine();
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(246, 250, 228, 210),
-      body: Stack(
+Widget build(context){
+
+return Stack(
         children: [
           Positioned(
             left: 100,
@@ -270,7 +286,7 @@ class FirstImage extends StatelessWidget {
             left: 10,
             right: 20,
             child: Image.asset(
-              'image/1.jpg',
+              image,
               width: 600,
               height: 285,
               fit: BoxFit.cover,
@@ -307,10 +323,14 @@ class FirstImage extends StatelessWidget {
               onPressed: () {
                 if (first.text != null && first.text.trim().isNotEmpty) {
                   _saveText(first);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => SecImage()),
-                  );
+                  if(count>10){
+                    Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => RorschachAnalysisScreen()),
+                );
+                  }
+                  cngImg();
+                  
                 } else {
                   final snackBar = SnackBar(content: Text("Enter an Input!!!"));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -328,820 +348,21 @@ class FirstImage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
+      );
+
 }
 
-class SecImage extends StatelessWidget {
-  SecImage({super.key});
-  TextEditingController second = TextEditingController();
+}
+
+class FirstImage extends StatelessWidget {
+  FirstImage({super.key});
 
   @override
   Widget build(context) {
+    _writeStartupLine();
     return Scaffold(
       backgroundColor: const Color.fromARGB(246, 250, 228, 210),
-      body: Stack(
-        children: [
-          Positioned(
-            left: 100,
-            top: 200,
-            child: Text(
-              'What do you see',
-              style: TextStyle(
-                fontFamily: 'RomanAntique',
-                fontSize: 30,
-                decoration: TextDecoration.underline,
-                decorationThickness: 5,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 280,
-            left: 10,
-            right: 20,
-            child: Image.asset(
-              'image/2.jpg',
-              width: 600,
-              height: 285,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            left: 80,
-            bottom: 250,
-            child: SizedBox(
-              width: 250,
-              child: TextField(
-                controller: second,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                    ), // Normal border color
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      width: 2.0,
-                    ), // Border when focused
-                  ),
-                  labelText: 'eg. two humans, four-legged animal',
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 30,
-            bottom: 80,
-            child: ElevatedButton(
-              onPressed: () {
-                if (second.text != null && second.text.trim().isNotEmpty) {
-                  _saveText(second);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => thrImage()),
-                  );
-                } else {
-                  final snackBar = SnackBar(content: Text("Enter an Input!!!"));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-              },
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  fontFamily: 'Winky',
-                  fontSize: 25,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class thrImage extends StatelessWidget {
-  thrImage({super.key});
-  TextEditingController thr = TextEditingController();
-
-  @override
-  Widget build(context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(246, 250, 228, 210),
-      body: Stack(
-        children: [
-          Positioned(
-            left: 100,
-            top: 200,
-            child: Text(
-              'What do you see',
-              style: TextStyle(
-                fontFamily: 'RomanAntique',
-                fontSize: 30,
-                decoration: TextDecoration.underline,
-                decorationThickness: 5,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 280,
-            left: 10,
-            right: 20,
-            child: Image.asset(
-              'image/3.jpg',
-              width: 600,
-              height: 285,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            left: 80,
-            bottom: 250,
-            child: SizedBox(
-              width: 250,
-              child: TextField(
-                controller: thr,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                    ), // Normal border color
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      width: 2.0,
-                    ), // Border when focused
-                  ),
-                  labelText: 'eg. two people',
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 30,
-            bottom: 80,
-            child: ElevatedButton(
-              onPressed: () {
-                if (thr.text != null && thr.text.trim().isNotEmpty) {
-                  _saveText(thr);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => f()),
-                  );
-                } else {
-                  final snackBar = SnackBar(content: Text("Enter an Input!!!"));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-              },
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  fontFamily: 'Winky',
-                  fontSize: 25,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class f extends StatelessWidget {
-  f({super.key});
-  TextEditingController thr = TextEditingController();
-
-  @override
-  Widget build(context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(246, 250, 228, 210),
-      body: Stack(
-        children: [
-          Positioned(
-            left: 100,
-            top: 200,
-            child: Text(
-              'What do you see',
-              style: TextStyle(
-                fontFamily: 'RomanAntique',
-                fontSize: 30,
-                decoration: TextDecoration.underline,
-                decorationThickness: 5,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 280,
-            left: 10,
-            right: 20,
-            child: Image.asset(
-              'image/4.jpg',
-              width: 600,
-              height: 285,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            left: 80,
-            bottom: 250,
-            child: SizedBox(
-              width: 250,
-              child: TextField(
-                controller: thr,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                    ), // Normal border color
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      width: 2.0,
-                    ), // Border when focused
-                  ),
-                  labelText: 'eg. animal hide, animal skin, skin rug',
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 30,
-            bottom: 80,
-            child: ElevatedButton(
-              onPressed: () {
-                if (thr.text != null && thr.text.trim().isNotEmpty) {
-                  _saveText(thr);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => five()),
-                  );
-                } else {
-                  final snackBar = SnackBar(content: Text("Enter an Input!!!"));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-              },
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  fontFamily: 'Winky',
-                  fontSize: 25,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class five extends StatelessWidget {
-  five({super.key});
-  TextEditingController thr = TextEditingController();
-
-  @override
-  Widget build(context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(246, 250, 228, 210),
-      body: Stack(
-        children: [
-          Positioned(
-            left: 100,
-            top: 200,
-            child: Text(
-              'What do you see',
-              style: TextStyle(
-                fontFamily: 'RomanAntique',
-                fontSize: 30,
-                decoration: TextDecoration.underline,
-                decorationThickness: 5,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 280,
-            left: 10,
-            right: 20,
-            child: Image.asset(
-              'image/5.jpg',
-              width: 600,
-              height: 285,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            left: 80,
-            bottom: 250,
-            child: SizedBox(
-              width: 250,
-              child: TextField(
-                controller: thr,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                    ), // Normal border color
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      width: 2.0,
-                    ), // Border when focused
-                  ),
-                  labelText: 'eg. bat, butterly, moth',
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 30,
-            bottom: 80,
-            child: ElevatedButton(
-              onPressed: () {
-                if (thr.text != null && thr.text.trim().isNotEmpty) {
-                  _saveText(thr);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => six()),
-                  );
-                } else {
-                  final snackBar = SnackBar(content: Text("Enter an Input!!!"));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-              },
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  fontFamily: 'Winky',
-                  fontSize: 25,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class six extends StatelessWidget {
-  six({super.key});
-  TextEditingController thr = TextEditingController();
-
-  @override
-  Widget build(context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(246, 250, 228, 210),
-      body: Stack(
-        children: [
-          Positioned(
-            left: 100,
-            top: 200,
-            child: Text(
-              'What do you see',
-              style: TextStyle(
-                fontFamily: 'RomanAntique',
-                fontSize: 30,
-                decoration: TextDecoration.underline,
-                decorationThickness: 5,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 280,
-            left: 10,
-            right: 20,
-            child: Image.asset(
-              'image/6.jpg',
-              width: 600,
-              height: 285,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            left: 80,
-            bottom: 250,
-            child: SizedBox(
-              width: 250,
-              child: TextField(
-                controller: thr,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                    ), // Normal border color
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      width: 2.0,
-                    ), // Border when focused
-                  ),
-                  labelText: 'eg. animal hide, animal skin, skin rug',
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 30,
-            bottom: 80,
-            child: ElevatedButton(
-              onPressed: () {
-                if (thr.text != null && thr.text.trim().isNotEmpty) {
-                  _saveText(thr);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => seven()),
-                  );
-                } else {
-                  final snackBar = SnackBar(content: Text("Enter an Input!!!"));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-              },
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  fontFamily: 'Winky',
-                  fontSize: 25,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class seven extends StatelessWidget {
-  seven({super.key});
-  TextEditingController thr = TextEditingController();
-
-  @override
-  Widget build(context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(246, 250, 228, 210),
-      body: Stack(
-        children: [
-          Positioned(
-            left: 100,
-            top: 200,
-            child: Text(
-              'What do you see',
-              style: TextStyle(
-                fontFamily: 'RomanAntique',
-                fontSize: 30,
-                decoration: TextDecoration.underline,
-                decorationThickness: 5,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 280,
-            left: 10,
-            right: 20,
-            child: Image.asset(
-              'image/7.jpg',
-              width: 600,
-              height: 285,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            left: 80,
-            bottom: 250,
-            child: SizedBox(
-              width: 250,
-              child: TextField(
-                controller: thr,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                    ), // Normal border color
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      width: 2.0,
-                    ), // Border when focused
-                  ),
-                  labelText:
-                      'eg. human heads, faces, heads of women or children',
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 30,
-            bottom: 80,
-            child: ElevatedButton(
-              onPressed: () {
-                if (thr.text != null && thr.text.trim().isNotEmpty) {
-                  _saveText(thr);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => eight()),
-                  );
-                } else {
-                  final snackBar = SnackBar(content: Text("Enter an Input!!!"));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-              },
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  fontFamily: 'Winky',
-                  fontSize: 25,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class eight extends StatelessWidget {
-  eight({super.key});
-  TextEditingController thr = TextEditingController();
-
-  @override
-  Widget build(context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(246, 250, 228, 210),
-      body: Stack(
-        children: [
-          Positioned(
-            left: 100,
-            top: 200,
-            child: Text(
-              'What do you see',
-              style: TextStyle(
-                fontFamily: 'RomanAntique',
-                fontSize: 30,
-                decoration: TextDecoration.underline,
-                decorationThickness: 5,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 280,
-            left: 10,
-            right: 20,
-            child: Image.asset(
-              'image/8.jpg',
-              width: 600,
-              height: 285,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            left: 80,
-            bottom: 250,
-            child: SizedBox(
-              width: 250,
-              child: TextField(
-                controller: thr,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                    ), // Normal border color
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      width: 2.0,
-                    ), // Border when focused
-                  ),
-                  labelText: 'eg. pink four-legged animal',
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 30,
-            bottom: 80,
-            child: ElevatedButton(
-              onPressed: () {
-                if (thr.text != null && thr.text.trim().isNotEmpty) {
-                  _saveText(thr);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => nine()),
-                  );
-                } else {
-                  final snackBar = SnackBar(content: Text("Enter an Input!!!"));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-              },
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  fontFamily: 'Winky',
-                  fontSize: 25,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class nine extends StatelessWidget {
-  nine({super.key});
-  TextEditingController thr = TextEditingController();
-
-  @override
-  Widget build(context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(246, 250, 228, 210),
-      body: Stack(
-        children: [
-          Positioned(
-            left: 100,
-            top: 200,
-            child: Text(
-              'What do you see',
-              style: TextStyle(
-                fontFamily: 'RomanAntique',
-                fontSize: 30,
-                decoration: TextDecoration.underline,
-                decorationThickness: 5,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 280,
-            left: 10,
-            right: 20,
-            child: Image.asset(
-              'image/9.jpg',
-              width: 600,
-              height: 350,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            left: 80,
-            bottom: 200,
-            child: SizedBox(
-              width: 250,
-              child: TextField(
-                controller: thr,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                    ), // Normal border color
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      width: 2.0,
-                    ), // Border when focused
-                  ),
-                  labelText: 'eg. human',
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 30,
-            bottom: 80,
-            child: ElevatedButton(
-              onPressed: () {
-                if (thr.text.trim().isNotEmpty) {
-                  _saveText(thr);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => ten()),
-                  );
-                } else {
-                  final snackBar = SnackBar(content: Text("Enter an Input!!!"));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-              },
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  fontFamily: 'Winky',
-                  fontSize: 25,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ten extends StatelessWidget {
-  ten({super.key});
-  TextEditingController thr = TextEditingController();
-
-  @override
-  Widget build(context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(246, 250, 228, 210),
-      body: Stack(
-        children: [
-          Positioned(
-            left: 100,
-            top: 200,
-            child: Text(
-              'What do you see',
-              style: TextStyle(
-                fontFamily: 'RomanAntique',
-                fontSize: 30,
-                decoration: TextDecoration.underline,
-                decorationThickness: 5,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 280,
-            left: 10,
-            right: 20,
-            child: Image.asset(
-              'image/10.jpg',
-              width: 600,
-              height: 285,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            left: 80,
-            bottom: 250,
-            child: SizedBox(
-              width: 250,
-              child: TextField(
-                controller: thr,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                    ), // Normal border color
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      width: 2.0,
-                    ), // Border when focused
-                  ),
-                  labelText: 'eg. crab, lobster, worms, caterpillars',
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 30,
-            bottom: 80,
-            child: ElevatedButton(
-              onPressed: () {
-                if (thr.text.trim().isNotEmpty) {
-                  _saveText(thr);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RorschachAnalysisScreen(),
-                    ),
-                  );
-                } else {
-                  final snackBar = SnackBar(content: Text("Enter an Input!!!"));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-              },
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  fontFamily: 'Winky',
-                  fontSize: 25,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      body: nextImg()
     );
   }
 }
