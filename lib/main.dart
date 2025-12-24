@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:dart_openai/dart_openai.dart';
 
-//reset text feild on pressing next
 //reform code to use column instead of stack
 //add stateful widget on videoplayer to make one videoPlayer function and change the video
 void main() {
@@ -256,14 +255,18 @@ return _next();
 class _next extends State<nextImg>{
 
   var image =  'image/$count.jpg';
-  
+  TextEditingController first = TextEditingController();
+  void dispose() {
+    first.dispose();
+    super.dispose();
+  }
  void cngImg()
 {
   setState(() {
     image = 'image/$count.jpg';
+    first.clear();
   });
 }
-  TextEditingController first = TextEditingController();
 Widget build(context){
 
 return Stack(
@@ -311,7 +314,6 @@ return Stack(
                       width: 2.0,
                     ), // Border when focused
                   ),
-                  labelText: 'eg. bat, butterfly, moth',
                 ),
               ),
             ),
